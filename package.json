@@ -1,0 +1,25 @@
+{
+  "name": "gan",
+  "version": "0.1.0",
+  "description": "A interactive tool for better development workflow, based on Git, Arcanist, and Npm.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/callmewhy/gan.git"
+  },
+  "keywords": [
+    "workflow",
+    "development",
+    "automation",
+    "tool"
+  ],
+  "author": "callmewhy <whywanghai@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/callmewhy/gan/issues"
+  },
+  "homepage": "https://github.com/callmewhy/gan#readme"
+}
