@@ -1,13 +1,14 @@
-const program = require('commander')
+const chalk = require('chalk')
+const git = require('../dist/git')
 
-program
-  .parse(process.argv)
-
-const fs = require('fs')
-
-fs.writeFile('gan.yml', '', (error) => {
-  if (error) {
-    console.log(error)
-  }
-  console.log('success')
-})
+git.check()
+   .then((valid) => {
+     if (valid) {
+       console.log(chalk.green('git check pass'))
+     } else {
+       console.log(chalk.yellow('git not installed'))
+     }
+   })
+   .catch((error) => {
+     console.log(chalk.red(error))
+   })
