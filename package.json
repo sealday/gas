@@ -11,7 +11,7 @@
     "test": "npm run build && mocha --compilers js:babel-core/register"
   },
   "bin": {
-    "gan": "./bin/gan.js"
+    "gan": "./bin/gan"
   },
   "repository": {
     "type": "git",
