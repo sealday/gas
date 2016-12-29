@@ -1,19 +1,13 @@
 const chalk = require('chalk')
 
-function green(...args) {
+export function green(...args) {
   console.log(chalk.green(args))
 }
 
-function red(...args) {
+export function red(...args) {
   console.log(chalk.red(args))
 }
 
-function yellow(...args) {
+export function yellow(...args) {
   console.log(chalk.yellow(args))
-}
-
-module.exports = {
-  green,
-  yellow,
-  red,
 }

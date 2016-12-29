@@ -2,23 +2,14 @@ const fs = require('fs')
 const git = require('../lib/git')
 const log = require('./log')
 
-// check git installed
 function checkGit() {
-  return new Promise((resolve, reject) => {
-    git.check((error, valid) => {
-      if (error) {
-        reject(error)
-      }
-      if (valid) {
-        log.green('git check pass')
-        resolve()
-      } else {
-        reject(new Error('git not installed'))
-      }
-    })
-  })
+  return git.version()
+            .then((version) => {
+              log.green(`git version: ${version}`)
+            })
 }
 
+// check config file
 function checkConfig() {
   const configPath = 'gan.yml'
   if (fs.existsSync(configPath)) {
