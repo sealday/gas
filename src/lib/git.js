@@ -36,7 +36,7 @@ function status() {
       if (error) {
         reject(error)
       } else {
-        resolve()
+        resolve(stdout)
       }
     })
   })

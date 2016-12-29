@@ -1,5 +1,7 @@
 const fs = require('fs')
 const git = require('../lib/git')
+const util = require('../lib/util')
+const setting = require('../lib/setting')
 const log = require('./log')
 
 function checkGit() {
@@ -18,16 +20,12 @@ function checkGit() {
 }
 
 function checkConfig() {
-  const configPath = 'gan.yml'
-  if (fs.existsSync(configPath)) {
-    // TODO: load config file in yaml
+  if (fs.existsSync(setting.configPath)) {
     log.green('config exists')
-  } else {
-    // TODO: init template config file
-    log.green('config not exists')
-    const path = 'gan.yml'
-    fs.writeFileSync(path, '')
+    return Promise.resolve()
   }
+  log.green('config not exists')
+  return util.copyFile(setting.templateConfigPath, setting.configPath)
 }
 
 checkGit()
