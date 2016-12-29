@@ -1,10 +1,15 @@
 git:
   commit:
-    # stage is the config for git commit
-    # 0: turn off auto stage
-    # 1: git commit -a
-    # 2: git add . && git commit
-    stage: 2
+    # auto stage changes while commit
+    autoStage: true
     # template for git commit message
-    template:
-      - title
+    # value is an array, min length and max length
+    message:
+      - title:
+          comment: 'What did you do in this commit?'
+          template: '{}'
+          min: 10
+          max: 100
+      - issue:
+          comment: 'Relevant issue?'
+          template: 'issue: {}'

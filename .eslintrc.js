@@ -6,6 +6,7 @@ module.exports = {
     'quotes': [2, 'single'],
     'no-console': 0,
     'arrow-body-style': 0,
+    'object-shorthand': 0,
     'import/prefer-default-export': 0,
   }
 }

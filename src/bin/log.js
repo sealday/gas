@@ -1,6 +1,6 @@
 const chalk = require('chalk')
 
-exports.log = (...args) => {
+exports.debug = (...args) => {
   console.log(...args)
 }
 
