@@ -5,5 +5,7 @@ const version = require('../../package.json').version
 
 program
   .version(version, '-V, --version')
-  .command('init [name]', 'init gan')
+  .command('init', 'init gan')
+  .command('add', 'git add')
+  .command('commit', 'git commit')
   .parse(process.argv)
