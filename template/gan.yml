@@ -1,2 +1,10 @@
 git:
-  template: .gitmessage
+  commit:
+    # stage is the config for git commit
+    # 0: turn off auto stage
+    # 1: git commit -a
+    # 2: git add . && git commit
+    stage: 2
+    # template for git commit message
+    template:
+      - title

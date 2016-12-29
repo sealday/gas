@@ -21,7 +21,7 @@ function checkGit() {
 
 function checkConfig() {
   if (fs.existsSync(setting.configPath)) {
-    log.green('config exists')
+    log.green('config already exists')
     return Promise.resolve()
   }
   log.green('config not exists')
