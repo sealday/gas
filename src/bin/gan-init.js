@@ -7,9 +7,16 @@ function checkGit() {
             .then((version) => {
               log.green(`git version: ${version}`)
             })
+            .then(git.status)
+            .then(() => {
+              log.green('a valid git repository')
+            })
+            .catch(() => {
+              log.green('not a git repository, git init')
+              return git.init()
+            })
 }
 
-// check config file
 function checkConfig() {
   const configPath = 'gan.yml'
   if (fs.existsSync(configPath)) {

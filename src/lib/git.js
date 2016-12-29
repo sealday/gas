@@ -18,6 +18,32 @@ function version() {
   })
 }
 
+function init() {
+  return new Promise((resolve, reject) => {
+    exec('git init', (error, stdout) => {
+      if (error) {
+        reject(error)
+      } else {
+        resolve(stdout)
+      }
+    })
+  })
+}
+
+function status() {
+  return new Promise((resolve, reject) => {
+    exec('git status', (error, stdout) => {
+      if (error) {
+        reject(error)
+      } else {
+        resolve()
+      }
+    })
+  })
+}
+
 module.exports = {
   version,
+  init,
+  status,
 }
