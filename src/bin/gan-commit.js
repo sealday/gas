@@ -70,14 +70,16 @@ util.loadConfig()
     .then(prepareStage)
     .then(prepareMessage)
     .then((message) => {
-      if (params.length === 0) {
+      if (needConfig) {
         fs.writeFileSync(setting.gitMessagePath, message)
         params.push('--template')
         params.push(setting.gitMessagePath)
         params.push('--allow-empty-message')
       }
       spawnSync('git', ['commit'].concat(params), { stdio: 'inherit' })
-      fs.unlinkSync(setting.gitMessagePath)
+      if (fs.existsSync(setting.gitMessagePath)) {
+        fs.unlinkSync(setting.gitMessagePath)
+      }
     })
     .catch((error) => {
       log.red(error)
