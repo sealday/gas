@@ -1,3 +1,4 @@
+const fs = require('fs')
 const spawnSync = require('child_process').spawnSync
 const exec = require('child_process').exec
 const util = require('../lib/util')
@@ -70,10 +71,13 @@ util.loadConfig()
     .then(prepareMessage)
     .then((message) => {
       if (params.length === 0) {
-        params.push('-em')
-        params.push(message)
+        fs.writeFileSync(setting.gitMessagePath, message)
+        params.push('--template')
+        params.push(setting.gitMessagePath)
+        params.push('--allow-empty-message')
       }
       spawnSync('git', ['commit'].concat(params), { stdio: 'inherit' })
+      fs.unlinkSync(setting.gitMessagePath)
     })
     .catch((error) => {
       log.red(error)
