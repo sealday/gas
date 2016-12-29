@@ -25,6 +25,8 @@ function checkConfig() {
   } else {
     // TODO: init template config file
     log.green('config not exists')
+    const path = 'gan.yml'
+    fs.writeFileSync(path, '')
   }
 }
 
