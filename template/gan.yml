@@ -1,4 +1,6 @@
 git:
+  base:
+    origin: 'git@github.com:callmewhy/gan.git'
   commit:
     # auto stage changes while commit
     autostage: true
@@ -26,7 +28,7 @@ git:
       version: ''
 
 alias:
-  - lgb:
+  - ll:
       description: 'git log graph pretty'
       cmd: 'git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset%n" --abbrev-commit --date=relative --branches'
 

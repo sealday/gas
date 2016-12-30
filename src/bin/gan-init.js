@@ -1,5 +1,4 @@
 const fs = require('fs')
-const execSync = require('child_process').execSync
 const exec = require('child_process').exec
 const util = require('../lib/util')
 const setting = require('../lib/setting')
@@ -47,10 +46,14 @@ function checkGitFlow() {
   return new Promise((resolve, reject) => {
     exec('git flow init -df', (error) => {
       if (error) {
-        reject(new Error('git-flow not installed\nyou can install git-flow from here:\n' +
-          'https://github.com/nvie/gitflow/wiki/Installation'))
+        if (error.message.match(/not a git command/) !== null) {
+          reject(new Error('git-flow not installed\nyou can install git-flow from here:\n' +
+            'https://github.com/nvie/gitflow/wiki/Installation'))
+        } else {
+          reject(error)
+        }
       } else {
-        log.green('git flow installed')
+        log.green('git flow init')
         resolve()
       }
     })
@@ -66,10 +69,16 @@ function checkConfig() {
   return util.copyFile(setting.templateConfigPath, setting.configPath)
 }
 
+function setupConfig(config) {
+  console.log(config)
+}
+
 checkGitVersion()
   .then(checkGitStatus)
   .then(checkGitFlow)
   .then(checkConfig)
+  .then(util.loadConfig)
+  .then(setupConfig)
   .catch((error) => {
     log.red(error)
   })
