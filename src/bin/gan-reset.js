@@ -7,7 +7,7 @@ const options = [{
   type: 'confirm',
   name: 'delete',
   message: 'Reset your gan.yml?',
-  default: false,
+  default: true,
 }]
 
 inquirer.prompt(options).then((answers) => {
