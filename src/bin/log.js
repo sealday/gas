@@ -1,3 +1,34 @@
+/**
+ Modifiers
+ - reset
+ - bold
+ - dim
+ - underline
+ - inverse
+ - hidden
+
+ Colors
+ - black
+ - red
+ - green
+ - yellow
+ - blue
+ - magenta
+ - cyan
+ - white
+ - gray
+
+ Background colors
+ - bgBlack
+ - bgRed
+ - bgGreen
+ - bgYellow
+ - bgBlue
+ - bgMagenta
+ - bgCyan
+ - bgWhite
+ */
+
 const chalk = require('chalk')
 
 function Log() {
@@ -42,6 +73,10 @@ const propertis = Object.keys(chalk.styles).reduce((previous, current) => {
 }, {})
 
 Object.defineProperties(Log.prototype, propertis)
+
+Log.prototype.debug = (...args) => {
+  console.log(...args)
+}
 
 const log = new Log()
 module.exports = log

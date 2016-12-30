@@ -26,16 +26,8 @@ function prepareStage(config) {
 }
 
 function previewChanges(config) {
-  return new Promise((resolve, reject) => {
-    exec('git status', (error, stdout) => {
-      if (error) {
-        reject(error)
-      } else {
-        log.green(stdout)
-        resolve(config)
-      }
-    })
-  })
+  spawnSync('git', ['status'], { stdio: 'inherit' })
+  return config
 }
 
 function prepareMessage(config) {
@@ -81,7 +73,6 @@ function prepareMessage(config) {
 function preCommit(message) {
   return new Promise((resolve, reject) => {
     if (needConfig) {
-      // TODO: git status show
       const options = [{
         type: 'confirm',
         name: 'confirm',
