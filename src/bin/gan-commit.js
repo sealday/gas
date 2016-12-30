@@ -25,6 +25,19 @@ function prepareStage(config) {
   })
 }
 
+function previewChanges(config) {
+  return new Promise((resolve, reject) => {
+    exec('git status', (error, stdout) => {
+      if (error) {
+        reject(error)
+      } else {
+        log.green(stdout)
+        resolve(config)
+      }
+    })
+  })
+}
+
 function prepareMessage(config) {
   if (needConfig && config.git && config.git.commit && config.git.commit.message) {
     const message = config.git.commit.message
@@ -57,8 +70,7 @@ function prepareMessage(config) {
         .map((item) => {
           const name = Object.keys(item)[0]
           const template = item[name].template
-          const comment = item[name].comment
-          return `# ${comment}\n${template.replace('{}', answers[name])}\n`
+          return `${template.replace('{}', answers[name])}\n`
         })
         .join('\n')
     })
@@ -66,20 +78,41 @@ function prepareMessage(config) {
   return null
 }
 
+function preCommit(message) {
+  return new Promise((resolve, reject) => {
+    if (needConfig) {
+      // TODO: git status show
+      const options = [{
+        type: 'confirm',
+        name: 'confirm',
+        message: 'Make sure\n to commit?',
+      }]
+      inquirer.prompt(options)
+              .then((answers) => {
+                if (answers.confirm === true) {
+                  resolve(message)
+                } else {
+                  reject(new Error('user canceld'))
+                }
+              })
+              .catch(reject)
+    } else {
+      resolve(message)
+    }
+  })
+}
+
 util.loadConfig()
     .then(prepareStage)
+    .then(previewChanges)
     .then(prepareMessage)
+    .then(preCommit)
     .then((message) => {
       if (needConfig) {
-        fs.writeFileSync(setting.gitMessagePath, message)
-        params.push('--template')
-        params.push(setting.gitMessagePath)
-        params.push('--allow-empty-message')
+        params.push('-m')
+        params.push(message)
       }
       spawnSync('git', ['commit'].concat(params), { stdio: 'inherit' })
-      if (fs.existsSync(setting.gitMessagePath)) {
-        fs.unlinkSync(setting.gitMessagePath)
-      }
     })
     .catch((error) => {
       log.red(error)
