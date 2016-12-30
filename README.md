@@ -1,4 +1,4 @@
-## gan ![NPM version](https://img.shields.io/npm/v/gan.svg?style=flat)
+## gan
 
 Automation tool for better development workflow.
 

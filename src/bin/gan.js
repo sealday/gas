@@ -14,6 +14,8 @@ util.loadConfig()
         .command('reset', 'reset gan config')
         .command('add', 'git add')
         .command('commit', 'git commit')
+        .command('branch', 'git branch')
+        .command('push', 'git push')
       return config
     })
     .then((config) => {
