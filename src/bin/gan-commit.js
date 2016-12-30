@@ -7,7 +7,7 @@ const params = process.argv.slice(2)
 const needConfig = (params.length === 0)
 
 function prepareStage(config) {
-  if (needConfig && config.git && config.git.commit && config.git.commit.autoStage) {
+  if (needConfig && config.git && config.git.commit && config.git.commit.autostage) {
     execSync('git add .')
   }
   return config

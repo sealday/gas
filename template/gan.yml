@@ -1,7 +1,7 @@
 git:
   commit:
     # auto stage changes while commit
-    autoStage: true
+    autostage: true
     # template for git commit message
     # value is an array, min length and max length
     message:
@@ -13,6 +13,17 @@ git:
       - issue:
           comment: 'Relevant issue?'
           template: 'issue: {}'
+
+  flow:
+    branch:
+      production: 'master'
+      development: 'develop'
+    prefix:
+      feature: 'feature/'
+      release: 'release/'
+      hotfix: 'hotfix/'
+      version: ''
+
 alias:
   - lgb:
       description: 'git log graph pretty'

@@ -43,6 +43,20 @@ function checkGitStatus() {
   })
 }
 
+function checkGitFlow() {
+  return new Promise((resolve, reject) => {
+    exec('git flow init help', (error) => {
+      if (error) {
+        reject(new Error('git-flow not installed\nyou can install git-flow from here:\n' +
+          'https://github.com/nvie/gitflow/wiki/Installation'))
+      } else {
+        log.green('git flow installed')
+        resolve()
+      }
+    })
+  })
+}
+
 function checkConfig() {
   if (fs.existsSync(setting.configPath)) {
     log.green('config already exists')
@@ -53,10 +67,8 @@ function checkConfig() {
 }
 
 checkGitVersion()
-  .then((version) => {
-    log.green(`git version: ${version}`)
-  })
   .then(checkGitStatus)
+  .then(checkGitFlow)
   .then(checkConfig)
   .catch((error) => {
     log.red(error)
