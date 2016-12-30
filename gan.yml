@@ -1,5 +1,5 @@
 git:
-  base:
+  remote:
     origin: 'git@github.com:callmewhy/gan.git'
   commit:
     # auto stage changes while commit

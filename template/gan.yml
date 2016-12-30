@@ -1,6 +1,6 @@
 git:
   remote:
-    origin: 'git@github.com:callmewhy/gan.git'
+    origin:
   commit:
     # auto stage changes while commit
     autostage: true

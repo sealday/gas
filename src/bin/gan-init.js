@@ -22,7 +22,7 @@ function checkGitVersion() {
   })
 }
 
-function checkGitStatus() {
+function checkGitInit() {
   return new Promise((resolve, reject) => {
     exec('git status', (error) => {
       if (error) {
@@ -70,12 +70,24 @@ function checkConfig() {
 }
 
 function setupConfig(config) {
-  const origin = config.git.remote.origin
-  log.debug(origin)
+  return new Promise((resolve, reject) => {
+    const origin = config.git.remote.origin
+    if (origin !== null) {
+      exec('git remote remove origin', () => {
+        exec(`git remote add origin ${origin}`, (error) => {
+          if (error) {
+            reject(error)
+          } else {
+            resolve()
+          }
+        })
+      })
+    }
+  })
 }
 
 checkGitVersion()
-  .then(checkGitStatus)
+  .then(checkGitInit)
   .then(checkGitFlow)
   .then(checkConfig)
   .then(util.loadConfig)
