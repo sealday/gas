@@ -1,8 +1,5 @@
-const fs = require('fs')
-const spawnSync = require('child_process').spawnSync
-const exec = require('child_process').exec
+const execSync = require('child_process').execSync
 const util = require('../lib/util')
-const setting = require('../lib/setting')
 const log = require('./log')
 const inquirer = require('inquirer')
 
@@ -10,23 +7,14 @@ const params = process.argv.slice(2)
 const needConfig = (params.length === 0)
 
 function prepareStage(config) {
-  return new Promise((resolve, reject) => {
-    if (needConfig && config.git && config.git.commit && config.git.commit.autoStage) {
-      exec('git add .', (error) => {
-        if (error) {
-          reject(error)
-        } else {
-          resolve(config)
-        }
-      })
-    } else {
-      resolve(config)
-    }
-  })
+  if (needConfig && config.git && config.git.commit && config.git.commit.autoStage) {
+    execSync('git add .')
+  }
+  return config
 }
 
 function previewChanges(config) {
-  spawnSync('git', ['status'], { stdio: 'inherit' })
+  execSync('git status', { stdio: 'inherit' })
   return config
 }
 
@@ -101,9 +89,9 @@ util.loadConfig()
     .then((message) => {
       if (needConfig) {
         params.push('-m')
-        params.push(message)
+        params.push(`"${message}"`)
       }
-      spawnSync('git', ['commit'].concat(params), { stdio: 'inherit' })
+      execSync(`git commit ${params.join(' ')}`, { stdio: 'inherit' })
     })
     .catch((error) => {
       log.red(error)

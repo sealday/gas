@@ -1,9 +1,6 @@
 git:
   commit:
-    # auto stage changes while commit
     autoStage: true
-    # template for git commit message
-    # value is an array, min length and max length
     message:
       - title:
           comment: 'What did you do in this commit?'

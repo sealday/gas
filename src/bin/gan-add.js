@@ -1,5 +1,5 @@
-const spawn = require('child_process').spawn
+const execSync = require('child_process').execSync
 
 const params = process.argv.slice(2)
 
-spawn('git', ['add'].concat(params), { stdio: 'inherit' })
+execSync(`git add ${params.join(' ')}`, { stdio: 'inherit' })
