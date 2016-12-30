@@ -85,7 +85,7 @@ function preCommit(message) {
       const options = [{
         type: 'confirm',
         name: 'confirm',
-        message: 'Make sure\n to commit?',
+        message: 'Make sure to commit?',
       }]
       inquirer.prompt(options)
               .then((answers) => {
