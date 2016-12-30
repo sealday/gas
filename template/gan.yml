@@ -14,6 +14,7 @@ git:
           comment: 'Relevant issue?'
           template: 'issue: {}'
 
+  # read only
   flow:
     branch:
       production: 'master'

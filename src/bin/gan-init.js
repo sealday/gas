@@ -45,7 +45,7 @@ function checkGitStatus() {
 
 function checkGitFlow() {
   return new Promise((resolve, reject) => {
-    exec('git flow init help', (error) => {
+    exec('git flow init -df', (error) => {
       if (error) {
         reject(new Error('git-flow not installed\nyou can install git-flow from here:\n' +
           'https://github.com/nvie/gitflow/wiki/Installation'))
