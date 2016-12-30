@@ -70,7 +70,8 @@ function checkConfig() {
 }
 
 function setupConfig(config) {
-  console.log(config)
+  const origin = config.git.remote.origin
+  log.debug(origin)
 }
 
 checkGitVersion()
