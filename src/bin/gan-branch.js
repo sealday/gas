@@ -44,14 +44,9 @@ function switchBranch(branch) {
   execSync(`git checkout ${branch}`, { stdio: 'inherit' })
 }
 
-const params = process.argv.slice(2)
-if (params.length === 0) {
-  getBranches()
-    .then(showBranches)
-    .then(switchBranch)
-    .catch((error) => {
-      log.red(error)
-    })
-} else {
-  execSync(`git branch ${params.join(' ')}`, { stdio: 'inherit' })
-}
+getBranches()
+  .then(showBranches)
+  .then(switchBranch)
+  .catch((error) => {
+    log.red(error)
+  })

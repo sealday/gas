@@ -4,10 +4,9 @@ const log = require('./log')
 const inquirer = require('inquirer')
 
 const params = process.argv.slice(2)
-const needConfig = (params.length === 0)
 
 function prepareStage(config) {
-  if (needConfig && config.git && config.git.commit && config.git.commit.autostage) {
+  if (config.git && config.git.commit && config.git.commit.autostage) {
     execSync('git add .')
   }
   return config
@@ -19,7 +18,7 @@ function previewChanges(config) {
 }
 
 function prepareMessage(config) {
-  if (needConfig && config.git && config.git.commit && config.git.commit.message) {
+  if (config.git && config.git.commit && config.git.commit.message) {
     const message = config.git.commit.message
     const options = message.map((item) => {
       const name = Object.keys(item).pop()
@@ -60,24 +59,20 @@ function prepareMessage(config) {
 
 function preCommit(message) {
   return new Promise((resolve, reject) => {
-    if (needConfig) {
-      const options = [{
-        type: 'confirm',
-        name: 'confirm',
-        message: 'Make sure to commit?',
-      }]
-      inquirer.prompt(options)
-              .then((answers) => {
-                if (answers.confirm === true) {
-                  resolve(message)
-                } else {
-                  reject(new Error('user canceld'))
-                }
-              })
-              .catch(reject)
-    } else {
-      resolve(message)
-    }
+    const options = [{
+      type: 'confirm',
+      name: 'confirm',
+      message: 'Make sure to commit?',
+    }]
+    inquirer.prompt(options)
+            .then((answers) => {
+              if (answers.confirm === true) {
+                resolve(message)
+              } else {
+                reject(new Error('user canceld'))
+              }
+            })
+            .catch(reject)
   })
 }
 
@@ -87,10 +82,8 @@ util.loadConfig()
     .then(prepareMessage)
     .then(preCommit)
     .then((message) => {
-      if (needConfig) {
-        params.push('-m')
-        params.push(`"${message}"`)
-      }
+      params.push('-m')
+      params.push(`"${message}"`)
       execSync(`git commit ${params.join(' ')}`, { stdio: 'inherit' })
     })
     .catch((error) => {
