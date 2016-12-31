@@ -5,13 +5,13 @@ const log = require('./log')
 
 const options = [{
   type: 'confirm',
-  name: 'delete',
+  name: 'confirm',
   message: 'Reset your gan.yml?',
   default: true,
 }]
 
 inquirer.prompt(options).then((answers) => {
-  if (answers.delete) {
+  if (answers.confirm) {
     util.copyFile(setting.templateConfigPath, setting.configPath)
         .then(() => {
           log.green('reset all config')

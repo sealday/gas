@@ -7,7 +7,7 @@
     "dev": "npm run build -- --watch",
     "build": "babel src --out-dir dist/ --source-maps",
     "lint": "eslint --ext .js lib/ test/",
-    "test": "npm run build && mocha --compilers js:babel-core/register"
+    "test": "npm run lint && npm run build && mocha --compilers js:babel-core/register"
   },
   "bin": {
     "gan": "./dist/bin/gan.js"

@@ -30,6 +30,8 @@ exports.loadConfig = () => {
           resolve(config)
         }
       })
+    } else {
+      resolve({})
     }
   })
 }

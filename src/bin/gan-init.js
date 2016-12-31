@@ -44,16 +44,27 @@ function checkGitInit() {
 
 function checkGitFlow() {
   return new Promise((resolve, reject) => {
-    exec('git flow init -df', (error) => {
+    exec('git flow support', (error) => {
       if (error) {
         if (error.message.match(/not a git command/) !== null) {
-          reject(new Error('git-flow not installed\nyou can install git-flow from here:\n' +
+          reject(new Error(
+            'git-flow not installed\n' +
+            'you can install git-flow from here:\n' +
             'https://github.com/nvie/gitflow/wiki/Installation'))
+        } else if (error.message.match(/not a gitflow-enabled repo/i) !== null) {
+          exec('git flow init -df', (initError) => {
+            if (initError) {
+              reject(initError)
+            } else {
+              log.green('init git flow')
+              resolve()
+            }
+          })
         } else {
           reject(error)
         }
       } else {
-        log.green('git flow init')
+        log.green('git flow inited')
         resolve()
       }
     })
