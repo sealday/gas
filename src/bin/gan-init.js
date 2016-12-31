@@ -44,7 +44,7 @@ function checkGitInit() {
 
 function checkGitFlow() {
   return new Promise((resolve, reject) => {
-    exec('git flow support', (error) => {
+    exec('git flow feature', (error) => {
       if (error) {
         if (error.message.match(/not a git command/) !== null) {
           reject(new Error(

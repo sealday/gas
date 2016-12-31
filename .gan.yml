@@ -1,0 +1,34 @@
+git:
+  remote:
+    origin: git@github.com/callmewhy/gan.git
+  commit:
+    # auto stage changes while commit
+    autostage: true
+    # template for git commit message
+    # value is an array, min length and max length
+    message:
+      - title:
+          comment: 'What did you do in this commit?'
+          template: '{}'
+          min: 10
+          max: 100
+      - issue:
+          comment: 'Relevant issue?'
+          template: 'issue: {}'
+
+  # read only
+  flow:
+    branch:
+      production: 'master'
+      development: 'develop'
+    prefix:
+      feature: 'feature/'
+      release: 'release/'
+      hotfix: 'hotfix/'
+      version: ''
+
+alias:
+  - ll:
+      description: 'git log graph pretty'
+      cmd: 'git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset%n" --abbrev-commit --date=relative --branches'
+
