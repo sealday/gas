@@ -1,6 +1,4 @@
 git:
-  remote:
-    origin:
   commit:
     # auto stage changes while commit
     autostage: true

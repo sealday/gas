@@ -101,29 +101,10 @@ function checkConfig() {
   })
 }
 
-function setupConfig(config) {
-  return new Promise((resolve, reject) => {
-    const origin = config.git.remote.origin
-    if (origin !== null) {
-      exec('git remote remove origin', () => {
-        exec(`git remote add origin ${origin}`, (error) => {
-          if (error) {
-            reject(error)
-          } else {
-            resolve()
-          }
-        })
-      })
-    }
-  })
-}
-
 checkGitVersion()
   .then(checkGitInit)
   .then(checkGitFlow)
   .then(checkConfig)
-  .then(util.loadConfig)
-  .then(setupConfig)
   .catch((error) => {
     log.red(error)
   })
