@@ -30,7 +30,7 @@
   "homepage": "https://github.com/callmewhy/gan#readme",
   "dependencies": {
     "chalk": "^1.1.3",
-    "commander": "^2.9.0",
+    "commander": "git+https://github.com/tj/commander.js.git",
     "inquirer": "^2.0.0",
     "js-yaml": "^3.7.0",
     "tabtab": "^2.2.1"

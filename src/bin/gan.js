@@ -9,9 +9,11 @@ const version = require('../../package.json').version
 program
   .version(version, '-V, --version')
   .command('init', 'init gan')
+  .alias('i')
   .command('commit', 'git commit')
+  .alias('c')
   .command('branch', 'git branch')
-  .command('push', 'git push')
+  .alias('p')
 
 util.loadConfig()
     .then((config) => {
