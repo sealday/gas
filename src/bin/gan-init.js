@@ -1,4 +1,5 @@
 const fs = require('fs')
+const inquirer = require('inquirer')
 const exec = require('child_process').exec
 const util = require('../lib/util')
 const setting = require('../lib/setting')
@@ -72,12 +73,32 @@ function checkGitFlow() {
 }
 
 function checkConfig() {
-  if (fs.existsSync(setting.configPath)) {
-    log.green('config already exists')
-    return Promise.resolve()
-  }
-  log.green('config not exists')
-  return util.copyFile(setting.templateConfigPath, setting.configPath)
+  return new Promise((resolve, reject) => {
+    if (fs.existsSync(setting.configPath)) {
+      log.green('config already exists')
+
+      const options = [{
+        type: 'confirm',
+        name: 'confirm',
+        message: 'Reset your gan.yml?',
+        default: true,
+      }]
+
+      inquirer.prompt(options).then((answers) => {
+        if (answers.confirm) {
+          util.copyFile(setting.templateConfigPath, setting.configPath)
+              .then(resolve)
+              .catch(reject)
+        } else {
+          resolve()
+        }
+      })
+    } else {
+      log.green('config not exists')
+      util.copyFile(setting.templateConfigPath, setting.configPath)
+      resolve()
+    }
+  })
 }
 
 function setupConfig(config) {

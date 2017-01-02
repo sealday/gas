@@ -9,7 +9,6 @@ const version = require('../../package.json').version
 program
   .version(version, '-V, --version')
   .command('init', 'init gan')
-  .command('reset', 'reset gan config')
   .command('commit', 'git commit')
   .command('branch', 'git branch')
   .command('push', 'git push')
