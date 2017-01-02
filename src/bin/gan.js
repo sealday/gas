@@ -13,7 +13,7 @@ program
   .command('commit', 'git commit')
   .alias('c')
   .command('branch', 'git branch')
-  .alias('p')
+  .alias('b')
 
 util.loadConfig()
     .then((config) => {
@@ -25,6 +25,7 @@ util.loadConfig()
             .description(item[name].description)
             .action(() => {
               const cmd = item[name].cmd
+              // FIXME: wrong when cmd in single quotes, like git commit -m 'xxx'
               execSync(cmd, { stdio: 'inherit' })
             })
         })
