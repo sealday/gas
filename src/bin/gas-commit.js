@@ -3,8 +3,6 @@ const util = require('../lib/util')
 const inquirer = require('inquirer')
 const log = require('../lib/log')
 
-const params = process.argv.slice(2)
-
 function prepareStage(config) {
   if (config.git && config.git.commit && config.git.commit.autostage) {
     execSync('git add .')
@@ -82,9 +80,7 @@ util.loadConfig()
     .then(prepareMessage)
     .then(preCommit)
     .then((message) => {
-      params.push('-m')
-      params.push(`"${message}"`)
-      execSync(`git commit ${params.join(' ')}`, { stdio: 'inherit' })
+      execSync(`git commit -m '${message}'`, { stdio: 'inherit' })
     })
     .catch((error) => {
       log.red(error)

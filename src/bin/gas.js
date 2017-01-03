@@ -16,7 +16,7 @@ program
   .alias('c')
   .command('feature', 'git `feature')
   .alias('f')
-  .command('release', 'git flow release')
+  .command('release [action]', 'git flow release')
   .alias('r')
   .command('hotfix', 'git flow hotfix')
   .alias('h')

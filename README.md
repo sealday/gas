@@ -25,6 +25,11 @@ check this file: `index.js`
 - Publish your local branch, Open a pull request
 - Enjoy hacking <3
 
+### Reference
+- [Git Flow Cheatsheet](http://danielkummer.github.io/git-flow-cheatsheet/)
+- [A successful Git branching model](http://nvie.com/posts/a-successful-git-branching-model/)
+- [Semver](http://semver.org/)
+
 ### MIT license
 Copyright (c) 2016 callmewhy &lt;whywanghai@gmail.com&gt;
 
