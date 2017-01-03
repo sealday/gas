@@ -1,22 +1,7 @@
 const inquirer = require('inquirer')
-const exec = require('child_process').exec
 const execSync = require('child_process').execSync
 const log = require('./log')
-
-function getBranches() {
-  return new Promise((resolve, reject) => {
-    exec('git branch', (error, stdout) => {
-      if (error) {
-        reject(error)
-      } else {
-        const branches = stdout.split('\n')
-                               .map(name => name.trim())
-                               .filter(name => name.length > 0)
-        resolve(branches)
-      }
-    })
-  })
-}
+const git = require('../lib/git')
 
 function showBranches(branches) {
   let currentIndex = -1
@@ -37,16 +22,13 @@ function showBranches(branches) {
   })
 }
 
-function switchBranch(branch) {
-  if (branch.match(/^\* /) !== null) {
-    return
-  }
-  execSync(`git checkout ${branch}`, { stdio: 'inherit' })
-}
-
-getBranches()
-  .then(showBranches)
-  .then(switchBranch)
-  .catch((error) => {
-    log.red(error)
-  })
+git.getBranches()
+   .then(showBranches)
+   .then((branch) => {
+     if (branch.match(/^\* /) === null) {
+       execSync(`git checkout ${branch}`, { stdio: 'inherit' })
+     }
+   })
+   .catch((error) => {
+     log.red(error)
+   })
