@@ -1,11 +1,9 @@
-const inquirer = require('inquirer')
 const program = require('commander')
 const log = require('../lib/log')
+const cmd = require('../lib/cmd')
 
 program
   .parse(process.argv)
-
-const args = program.args
 
 const options = [{
   type: 'list',
@@ -18,6 +16,23 @@ const options = [{
     'track',
   ],
 }]
-inquirer.prompt(options).then((answers) => {
+cmd.prompt(options).then((answers) => {
   log.debug(answers)
+  switch (answers) {
+    case 'start': {
+      break
+    }
+    case 'finish': {
+      break
+    }
+    case 'publish': {
+      break
+    }
+    case 'track': {
+      break
+    }
+    default: {
+      break
+    }
+  }
 })

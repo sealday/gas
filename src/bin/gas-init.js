@@ -1,13 +1,12 @@
 const fs = require('fs')
-const inquirer = require('inquirer')
-const exec = require('child_process').exec
 const util = require('../lib/util')
 const setting = require('../lib/setting')
 const log = require('../lib/log')
+const cmd = require('../lib/cmd')
 
 function checkGitVersion() {
   return new Promise((resolve, reject) => {
-    exec('git version', (error, stdout) => {
+    cmd.exec('git version', (error, stdout) => {
       if (error) {
         reject(error)
       } else {
@@ -25,9 +24,9 @@ function checkGitVersion() {
 
 function checkGitInit() {
   return new Promise((resolve, reject) => {
-    exec('git status', (error) => {
+    cmd.exec('git status', (error) => {
       if (error) {
-        exec('git init', (initError) => {
+        cmd.exec('git init', (initError) => {
           if (initError) {
             reject(error)
           } else {
@@ -45,7 +44,7 @@ function checkGitInit() {
 
 function checkGitFlow() {
   return new Promise((resolve, reject) => {
-    exec('git flow feature', (error) => {
+    cmd.exec('git flow feature', (error) => {
       if (error) {
         if (error.message.match(/not a git command/) !== null) {
           reject(new Error(
@@ -53,7 +52,7 @@ function checkGitFlow() {
             'you can install git-flow from here:\n' +
             'https://github.com/nvie/gitflow/wiki/Installation'))
         } else if (error.message.match(/not a gitflow-enabled repo/i) !== null) {
-          exec('git flow init -df', (initError) => {
+          cmd.exec('git flow init -df', (initError) => {
             if (initError) {
               reject(initError)
             } else {
@@ -84,7 +83,7 @@ function checkConfig() {
         default: true,
       }]
 
-      inquirer.prompt(options).then((answers) => {
+      cmd.prompt(options).then((answers) => {
         if (answers.confirm) {
           util.copyFile(setting.templateConfigPath, setting.configPath)
               .then(resolve)

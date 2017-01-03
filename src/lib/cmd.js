@@ -1,4 +1,6 @@
 const exec = require('child_process').exec
+const execSync = require('child_process').execSync
+const inquirer = require('inquirer')
 
 module.exports.exec = (cmd) => {
   return new Promise((resolve, reject) => {
@@ -10,4 +12,12 @@ module.exports.exec = (cmd) => {
       }
     })
   })
+}
+
+module.exports.execSync = (cmd, options) => {
+  return execSync(cmd, options)
+}
+
+module.exports.prompt = (options) => {
+  return inquirer.prompt(options)
 }

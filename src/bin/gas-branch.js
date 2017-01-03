@@ -1,5 +1,4 @@
-const inquirer = require('inquirer')
-const execSync = require('child_process').execSync
+const cmd = require('../lib/cmd')
 const git = require('../lib/git')
 const log = require('../lib/log')
 
@@ -11,7 +10,7 @@ function showBranches(branches) {
     }
   })
 
-  return inquirer.prompt([{
+  return cmd.prompt([{
     type: 'list',
     name: 'name',
     message: 'What branch do you want to checkout?',
@@ -26,7 +25,7 @@ git.getBranches()
    .then(showBranches)
    .then((branch) => {
      if (branch.match(/^\* /) === null) {
-       execSync(`git checkout ${branch}`, { stdio: 'inherit' })
+       cmd.execSync(`git checkout ${branch}`, { stdio: 'inherit' })
      }
    })
    .catch((error) => {

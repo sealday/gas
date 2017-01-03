@@ -1,17 +1,16 @@
-const execSync = require('child_process').execSync
 const util = require('../lib/util')
-const inquirer = require('inquirer')
+const cmd = require('../lib/cmd')
 const log = require('../lib/log')
 
 function prepareStage(config) {
   if (config.git && config.git.commit && config.git.commit.autostage) {
-    execSync('git add .')
+    cmd.execSync('git add .')
   }
   return config
 }
 
 function previewChanges(config) {
-  execSync('git status', { stdio: 'inherit' })
+  cmd.execSync('git status', { stdio: 'inherit' })
   return config
 }
 
@@ -38,7 +37,7 @@ function prepareMessage(config) {
         },
       }
     })
-    return inquirer.prompt(options).then((answers) => {
+    return cmd.prompt(options).then((answers) => {
       return message
         .filter((item) => {
           const name = Object.keys(item)[0]
@@ -62,15 +61,15 @@ function preCommit(message) {
       name: 'confirm',
       message: 'Make sure to commit?',
     }]
-    inquirer.prompt(options)
-            .then((answers) => {
-              if (answers.confirm === true) {
-                resolve(message)
-              } else {
-                reject(new Error('user canceld'))
-              }
-            })
-            .catch(reject)
+    cmd.prompt(options)
+       .then((answers) => {
+         if (answers.confirm === true) {
+           resolve(message)
+         } else {
+           reject(new Error('user canceld'))
+         }
+       })
+       .catch(reject)
   })
 }
 
@@ -80,7 +79,7 @@ util.loadConfig()
     .then(prepareMessage)
     .then(preCommit)
     .then((message) => {
-      execSync(`git commit -m '${message}'`, { stdio: 'inherit' })
+      cmd.execSync(`git commit -m '${message}'`, { stdio: 'inherit' })
     })
     .catch((error) => {
       log.red(error)
