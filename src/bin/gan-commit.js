@@ -1,6 +1,7 @@
 const execSync = require('child_process').execSync
 const util = require('../lib/util')
 const inquirer = require('inquirer')
+const log = require('../lib/log')
 
 const params = process.argv.slice(2)
 

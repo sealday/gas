@@ -3,6 +3,7 @@ const inquirer = require('inquirer')
 const exec = require('child_process').exec
 const util = require('../lib/util')
 const setting = require('../lib/setting')
+const log = require('../lib/log')
 
 function checkGitVersion() {
   return new Promise((resolve, reject) => {

@@ -4,8 +4,7 @@ const program = require('commander')
 const execSync = require('child_process').execSync
 const util = require('../lib/util')
 const version = require('../../package.json').version
-
-global.log = require('../lib/log')
+const log = require('../lib/log')
 
 program
   .version(version, '-V, --version')

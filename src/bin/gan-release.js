@@ -1,6 +1,7 @@
 const inquirer = require('inquirer')
 const execSync = require('child_process').execSync
 const git = require('../lib/git')
+const log = require('../lib/log')
 
 function showBranches(branches) {
   let currentIndex = -1
