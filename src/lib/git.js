@@ -1,16 +1,10 @@
-const exec = require('child_process').exec
+const cmd = require('./cmd')
 
 module.exports.getBranches = () => {
-  return new Promise((resolve, reject) => {
-    exec('git branch', (error, stdout) => {
-      if (error) {
-        reject(error)
-      } else {
-        const branches = stdout.split('\n')
-                               .map(name => name.trim())
-                               .filter(name => name.length > 0)
-        resolve(branches)
-      }
-    })
-  })
+  return cmd.exec('git branch')
+            .then((stdout) => {
+              return stdout.split('\n')
+                           .map(name => name.trim())
+                           .filter(name => name.length > 0)
+            })
 }

@@ -3,17 +3,24 @@
 const program = require('commander')
 const execSync = require('child_process').execSync
 const util = require('../lib/util')
-const log = require('./log')
 const version = require('../../package.json').version
+
+global.log = require('../lib/log')
 
 program
   .version(version, '-V, --version')
-  .command('init', 'init gan')
+  .command('init', 'gan init')
   .alias('i')
-  .command('commit', 'git commit')
-  .alias('c')
   .command('branch', 'git branch')
   .alias('b')
+  .command('commit', 'git commit')
+  .alias('c')
+  .command('feature', 'git `feature')
+  .alias('f')
+  .command('release', 'git flow release')
+  .alias('r')
+  .command('hotfix', 'git flow hotfix')
+  .alias('h')
 
 util.loadConfig()
     .then((config) => {

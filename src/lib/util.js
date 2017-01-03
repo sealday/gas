@@ -7,7 +7,6 @@ exports.copyFile = (source, target) => {
     const rs = fs.createReadStream(source)
     const ws = fs.createWriteStream(target)
     const rejectCleanup = (error) => {
-      console.log(error)
       ws.destroy()
       ws.end()
       reject(error)
