@@ -1,29 +1,10 @@
-## gan
-
-Automation tool for better development workflow.
+## gas
+A CLI tool for better development workflow based on Git and Semver
 
 ### Installation
 ```bash
-$ npm install gan
+$ npm install -g gas
 ```
-
-### Example
-```js
-var gan = require('gan');
-```
-
-### API
-check this file: `index.js`
-
-### Contributing
-- Fork this Repo first
-- Clone your Repo
-- Install dependencies by `$ npm install`
-- Checkout a feature branch
-- Feel free to add your features
-- Make sure your features are fully tested
-- Publish your local branch, Open a pull request
-- Enjoy hacking <3
 
 ### Reference
 - [Git Flow Cheatsheet](http://danielkummer.github.io/git-flow-cheatsheet/)
@@ -50,7 +31,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-
----
-![docor]()
-built upon love by [docor](git+https://github.com/turingou/docor.git) v0.3.0

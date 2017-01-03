@@ -1,7 +1,7 @@
 {
   "name": "gas-cli",
   "version": "0.1.0",
-  "description": "A CLI tool for better development workflow, based on Git and Semver",
+  "description": "A CLI tool for better development workflow based on Git and Semver",
   "main": "index.js",
   "scripts": {
     "dev": "npm run build -- --watch",
