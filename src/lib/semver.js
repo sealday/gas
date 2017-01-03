@@ -1,6 +1,6 @@
 const semver = require('semver')
 
-const Level = {
+module.exports.Level = {
   major: 'major',
   premajor: 'premajor',
   minor: 'minor',
@@ -27,8 +27,9 @@ class Semver {
   }
 
   increase(level) {
+    console.log(this.version)
+    console.log(level)
     return semver.inc(this.version, level)
   }
 }
-
-module.exports = Semver
+module.exports.Semver = Semver
