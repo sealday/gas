@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "npm run build -- --watch",
     "build": "babel src --out-dir dist/ --source-maps",
-    "lint": "eslint --ext .js lib/ test/",
+    "lint": "eslint --ext .js src/ test/",
     "test": "npm run lint && npm run build && mocha --compilers js:babel-core/register"
   },
   "bin": {

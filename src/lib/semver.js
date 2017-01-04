@@ -27,8 +27,6 @@ class Semver {
   }
 
   increase(level) {
-    console.log(this.version)
-    console.log(level)
     return semver.inc(this.version, level)
   }
 }

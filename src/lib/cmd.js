@@ -4,11 +4,7 @@ const inquirer = require('inquirer')
 
 module.exports.exec = (cmd) => {
   return new Promise((resolve, reject) => {
-    console.log(cmd)
     exec(cmd, (error, stdout, stderr) => {
-      console.log('----')
-      console.log(stdout)
-      console.log(stderr)
       if (error) {
         reject(error)
       } else {
@@ -21,6 +17,8 @@ module.exports.exec = (cmd) => {
 module.exports.execSync = (cmd, options) => {
   return execSync(cmd, options)
 }
+
+module.exports.Separator = inquirer.Separator
 
 module.exports.prompt = (options) => {
   return inquirer.prompt(options)

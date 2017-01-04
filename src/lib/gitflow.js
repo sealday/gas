@@ -8,7 +8,7 @@ release.start = (name) => {
               log.debug(stdout)
             })
 }
-release.finish = (name) => {
+release.finishSync = (name) => {
   cmd.execSync(`git flow release finish ${name}`, { stdio: 'inherit' })
 }
 release.publish = (name) => {

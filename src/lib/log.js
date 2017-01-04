@@ -54,6 +54,7 @@ function build(styles) {
     const result = styles.reduce((previous, current) => {
       return previous[current]
     }, chalk)
+    /* eslint-disable no-console */
     return console.log(result(...args))
   }
   builder.styles = styles
@@ -75,6 +76,12 @@ const propertis = Object.keys(chalk.styles).reduce((previous, current) => {
 Object.defineProperties(Log.prototype, propertis)
 
 Log.prototype.debug = (...args) => {
+  /* eslint-disable no-console */
+  console.log(...args)
+}
+
+Log.prototype.info = (...args) => {
+  /* eslint-disable no-console */
   console.log(...args)
 }
 
