@@ -1,20 +1,20 @@
 {
-  "name": "gan",
+  "name": "gas-cli",
   "version": "0.1.0",
-  "description": "A interactive tool for better development workflow, based on Git, Arcanist, and Npm.",
+  "description": "A CLI tool for better development workflow based on Git and Semver",
   "main": "index.js",
   "scripts": {
     "dev": "npm run build -- --watch",
     "build": "babel src --out-dir dist/ --source-maps",
-    "lint": "eslint --ext .js lib/ test/",
-    "test": "npm run build && mocha --compilers js:babel-core/register"
+    "lint": "eslint --ext .js src/ test/",
+    "test": "npm run lint && npm run build && mocha --compilers js:babel-core/register"
   },
   "bin": {
-    "gan": "./dist/bin/gan.js"
+    "gas": "./dist/bin/gas.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/callmewhy/gan.git"
+    "url": "git+ssh://git@github.com/callmewhy/gas.git"
   },
   "keywords": [
     "workflow",
@@ -25,14 +25,15 @@
   "author": "callmewhy <whywanghai@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/callmewhy/gan/issues"
+    "url": "https://github.com/callmewhy/gas/issues"
   },
-  "homepage": "https://github.com/callmewhy/gan#readme",
+  "homepage": "https://github.com/callmewhy/gas#readme",
   "dependencies": {
     "chalk": "^1.1.3",
-    "commander": "^2.9.0",
+    "commander": "git+https://github.com/tj/commander.js.git",
     "inquirer": "^2.0.0",
     "js-yaml": "^3.7.0",
+    "semver": "^5.3.0",
     "tabtab": "^2.2.1"
   },
   "devDependencies": {

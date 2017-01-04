@@ -6,5 +6,7 @@ module.exports = {
   globals: {
     'expect': true
   },
-  rules: {}
+  rules: {
+    'no-console': 0,
+  }
 }

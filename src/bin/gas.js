@@ -3,19 +3,25 @@
 const program = require('commander')
 const execSync = require('child_process').execSync
 const util = require('../lib/util')
-const log = require('./log')
 const version = require('../../package.json').version
+const log = require('../lib/log')
+
+program
+  .version(version, '-V, --version')
+  .command('init', 'gan init')
+  .alias('i')
+  .command('branch', 'git branch')
+  .alias('b')
+  .command('commit', 'git commit')
+  .alias('c')
+  .command('feature', 'git `feature')
+  .alias('f')
+  .command('release [action]', 'git flow release')
+  .alias('r')
+  .command('hotfix', 'git flow hotfix')
+  .alias('h')
 
 util.loadConfig()
-    .then((config) => {
-      program
-        .version(version, '-V, --version')
-        .command('init', 'init gan')
-        .command('reset', 'reset gan config')
-        .command('add', 'git add')
-        .command('commit', 'git commit')
-      return config
-    })
     .then((config) => {
       const alias = config.alias || []
       alias.forEach((item) => {
@@ -25,12 +31,12 @@ util.loadConfig()
             .description(item[name].description)
             .action(() => {
               const cmd = item[name].cmd
+              // FIXME: wrong when cmd in single quotes, like git commit -m 'xxx'
               execSync(cmd, { stdio: 'inherit' })
             })
         })
       })
       program.parse(process.argv)
-      return config
     })
     .catch((error) => {
       log.bold.red(error)
