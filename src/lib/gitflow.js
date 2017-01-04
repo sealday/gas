@@ -1,29 +1,30 @@
 const cmd = require('./cmd')
-const log = require('../lib/log')
 
 const release = {}
-release.start = (name) => {
-  return cmd.exec(`git flow release start ${name}`)
-            .then((stdout) => {
-              log.debug(stdout)
-            })
+
+release.start = (name, options) => {
+  return cmd.exec(`git flow release start ${name}`, options)
 }
-release.finishSync = (name) => {
-  cmd.execSync(`git flow release finish ${name}`, { stdio: 'inherit' })
+release.finish = (name, options) => {
+  return cmd.exec(`git flow release finish -m gas ${name}`, options)
 }
-release.publish = (name) => {
-  return cmd.exec(`git flow release publish ${name}`)
-            .then((stdout) => {
-              log.debug(stdout)
-            })
+release.publish = (name, options) => {
+  return cmd.exec(`git flow release publish ${name}`, options)
 }
-release.track = (name) => {
-  return cmd.exec(`git flow release track ${name}`)
-            .then((stdout) => {
-              log.debug(stdout)
-            })
+release.track = (name, options) => {
+  return cmd.exec(`git flow release track ${name}`, options)
+}
+
+const util = {}
+util.getReleaseVersion = (name) => {
+  const versionMatch = name.match(/release\/(.*)/)
+  if (versionMatch === null) {
+    return null
+  }
+  return versionMatch[1]
 }
 
 module.exports = {
+  util,
   release,
 }

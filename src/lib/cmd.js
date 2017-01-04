@@ -2,9 +2,9 @@ const exec = require('child_process').exec
 const execSync = require('child_process').execSync
 const inquirer = require('inquirer')
 
-module.exports.exec = (cmd) => {
+module.exports.exec = (cmd, options) => {
   return new Promise((resolve, reject) => {
-    exec(cmd, (error, stdout, stderr) => {
+    exec(cmd, options, (error, stdout, stderr) => {
       if (error) {
         reject(error)
       } else {
