@@ -1,9 +1,12 @@
 ## gas
+[![Travis](https://img.shields.io/travis/callmewhy/gas.svg)](https://travis-ci.org/callmewhy/gas)
+[![npm](https://img.shields.io/npm/v/gas-cli.svg)](https://www.npmjs.com/package/gas-cli)
+
 A CLI tool for better development workflow based on Git and Semver
 
 ### Installation
 ```bash
-$ npm install -g gas
+$ npm install -g gas-cli
 ```
 
 ### Reference
