@@ -14,12 +14,12 @@ program
   .alias('b')
   .command('commit', 'git commit')
   .alias('c')
-  .command('feature', 'git `feature')
-  .alias('f')
-  .command('release [action]', 'git flow release')
+  .command('release', 'git flow release')
   .alias('r')
-  .command('hotfix', 'git flow hotfix')
-  .alias('h')
+// .command('feature', 'git flow feature')
+// .alias('f')
+// .command('hotfix', 'git flow hotfix')
+// .alias('h')
 
 util.loadConfig()
     .then((config) => {
@@ -31,7 +31,6 @@ util.loadConfig()
             .description(item[name].description)
             .action(() => {
               const cmd = item[name].cmd
-              // FIXME: wrong when cmd in single quotes, like git commit -m 'xxx'
               execSync(cmd, { stdio: 'inherit' })
             })
         })
