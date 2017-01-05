@@ -1,7 +1,7 @@
 git:
   commit:
     # auto stage changes while commit
-    autostage: true
+    auto_stage: true
     # template for git commit message
     # value is an array, min length and max length
     message:

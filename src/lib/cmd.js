@@ -15,7 +15,7 @@ module.exports.exec = (cmd, options) => {
 }
 
 module.exports.execSync = (cmd, options) => {
-  return execSync(cmd, options)
+  execSync(cmd, options)
 }
 
 module.exports.Separator = inquirer.Separator
