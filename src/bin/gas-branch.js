@@ -1,7 +1,6 @@
-const branch = require('../lib/gas/branch')
-const log = require('../lib/log')
+const branch = require('../gas/branch')
+const log = require('./log')
 
-branch.branch()
-      .catch((error) => {
-        log.red(error)
-      })
+branch.choose()
+      .then(branch.checkout)
+      .catch(log.catchError)
