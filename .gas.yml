@@ -13,8 +13,6 @@ git:
       - issue:
           comment: 'Relevant issue?'
           template: 'issue: {}'
-
-  # read only
   flow:
     branch:
       production: 'master'
@@ -24,9 +22,14 @@ git:
       release: 'release/'
       hotfix: 'hotfix/'
       version: ''
+    release:
+      # commit message of release finish, leave it null if you want to input it by yourself
+      finish_message: 'gas: release new version'
+  tag:
+    # tag message of release finish, leave it null if you want to input it by yourself
+    tag_message: 'gas automatic tag'
 
 alias:
   - ll:
       description: 'git log graph pretty'
       cmd: 'git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset%n" --abbrev-commit --date=relative --branches'
-
