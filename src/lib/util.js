@@ -47,9 +47,7 @@ function updateNpmVersion(pPath, version) {
       if (error) {
         reject(error)
       } else {
-        const result = data.toString().replace(/"version".*".*?"/, (match, p1) => {
-          return `"version": "${version}"`
-        })
+        const result = data.toString().replace(/"version".*".*?"/, `"version": "${version}"`)
         fs.writeFile(pPath, result, 'utf8', (wError) => {
           if (wError) {
             reject(wError)

@@ -74,7 +74,7 @@ function finishGitflowRelease(version) {
 function updateNpm(pPath, version) {
   return util.updateNpmVersion(pPath, version)
              .then(() => {
-               cmd.execSync('git add package.json && git commit -m "update version in package.json by gas"')
+               cmd.execSync('git add package.json && git commit -m "gas: update version in package.json"')
              })
 }
 
