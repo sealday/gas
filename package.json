@@ -1,6 +1,6 @@
 {
   "name": "gas-cli",
-  "version": "1.1.1",
+  "version": "0.1.1",
   "description": "A CLI tool for better development workflow based on Git and Semver",
   "main": "index.js",
   "scripts": {
