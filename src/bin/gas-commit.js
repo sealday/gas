@@ -3,7 +3,7 @@ const cmd = require('../lib/cmd')
 const log = require('../lib/log')
 
 function prepareStage(config) {
-  if (config.git && config.git.commit && config.git.commit.autostage) {
+  if (config.git && config.git.commit && config.git.commit.auto_stage) {
     cmd.execSync('git add .')
   }
   return config
@@ -56,12 +56,7 @@ function prepareMessage(config) {
 
 function preCommit(message) {
   return new Promise((resolve, reject) => {
-    const options = [{
-      type: 'confirm',
-      name: 'confirm',
-      message: 'Make sure to commit?',
-    }]
-    cmd.prompt(options)
+    cmd.promptConfirm('confirm', 'Make sure to commit?')
        .then((answers) => {
          if (answers.confirm === true) {
            resolve(message)

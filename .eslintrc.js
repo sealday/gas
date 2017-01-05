@@ -1,6 +1,12 @@
 module.exports = {
   root: true,
   extends: 'airbnb-base',
+  env: {
+    'node': true,
+  },
+  globals: {
+    'JSON': true
+  },
   rules: {
     'semi': [2, 'never'],
     'quotes': [2, 'single'],

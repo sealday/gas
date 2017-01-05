@@ -1,9 +1,11 @@
+const fs = require('fs')
 const chalk = require('chalk')
 const git = require('../git')
 const gitflow = require('../gitflow')
 const log = require('../log')
 const cmd = require('../cmd')
 const semver = require('../semver')
+const util = require('../util')
 
 function inputLevel() {
   const options = [{
@@ -61,6 +63,38 @@ function start() {
             })
 }
 
+function finishGitflowRelease(version) {
+  return gitflow.release.finish(version)
+                .then((stdout) => {
+                  log.info(stdout)
+                  return git.checkoutBranch('develop')
+                })
+}
+
+function updateNpm(pPath, version) {
+  return util.updateNpmVersion(pPath, version)
+             .then(() => {
+               cmd.execSync('git add package.json && git commit -m "update version in package.json by gas"')
+             })
+}
+
+function finishRelease(version) {
+  const pPath = util.cwdPath('package.json')
+  if (fs.existsSync(pPath)) {
+    return cmd.promptConfirm('confirm', 'Update version in package.json?')
+              .then((answers) => {
+                if (answers.confirm) {
+                  return updateNpm(pPath, version)
+                }
+                return Promise.resolve()
+              })
+              .then(() => {
+                finishGitflowRelease(version)
+              })
+  }
+  return finishGitflowRelease(version)
+}
+
 function finish() {
   return git.getCurrentBranch()
             .then(gitflow.util.getReleaseVersion)
@@ -68,11 +102,7 @@ function finish() {
               if (version === null) {
                 return Promise.reject('Current branch is not release branch.\nPlease checkout release branch')
               }
-              return gitflow.release.finish(version)
-                            .then((stdout) => {
-                              log.info(stdout)
-                              return git.checkoutBranch('develop')
-                            })
+              return finishRelease(version)
             })
 }
 
