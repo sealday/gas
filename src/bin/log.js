@@ -75,15 +75,24 @@ const propertis = Object.keys(chalk.styles).reduce((previous, current) => {
 
 Object.defineProperties(Log.prototype, propertis)
 
-Log.prototype.debug = (...args) => {
+function debug(...args) {
   /* eslint-disable no-console */
   console.log(...args)
 }
+Log.prototype.debug = debug
 
-Log.prototype.info = (...args) => {
+function info(...args) {
   /* eslint-disable no-console */
   console.log(...args)
 }
+Log.prototype.info = info
+
+function catchError(error) {
+  log.debug(error.stack)
+  /* eslint-disable no-console */
+  console.log(chalk.red(error))
+}
+Log.prototype.catchError = catchError
 
 const log = new Log()
 module.exports = log

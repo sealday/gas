@@ -1,10 +1,10 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --harmony
 
 const program = require('commander')
 const execSync = require('child_process').execSync
-const util = require('../lib/util')
 const version = require('../../package.json').version
-const log = require('../lib/log')
+const log = require('./log')
+const gas = require('../gas/gas')
 
 program
   .version(version, '-V, --version')
@@ -21,23 +21,17 @@ program
 // .command('hotfix', 'git flow hotfix')
 // .alias('h')
 
-util.loadConfig()
-    .then((config) => {
-      const alias = config.alias || []
-      alias.forEach((item) => {
-        Object.keys(item).forEach((name) => {
-          program
-            .command(name)
-            .description(item[name].description)
-            .action(() => {
-              const cmd = item[name].cmd
-              execSync(cmd, { stdio: 'inherit' })
-            })
-        })
-      })
-      program.parse(process.argv)
+const aliases = gas.getAliases()
+aliases.forEach((alias) => {
+  program
+    .command(alias.name)
+    .description(alias.description)
+    .action(() => {
+      try {
+        execSync(alias.cmd, { stdio: 'inherit' })
+      } catch (error) {
+        log.red(error)
+      }
     })
-    .catch((error) => {
-      log.bold.red(error)
-    })
-
+})
+program.parse(process.argv)

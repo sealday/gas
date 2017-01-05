@@ -1,7 +1,7 @@
-const init = require('../lib/gas/init')
-const log = require('../lib/log')
+const init = require('../gas/init')
+const log = require('./log')
 
-init.init()
-    .catch((error) => {
-      log.red(error)
-    })
+init.checkGitInit()
+    .then(init.checkGitFlow)
+    .then(init.checkConfig)
+    .catch(log.catchError)

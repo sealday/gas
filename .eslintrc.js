@@ -14,5 +14,6 @@ module.exports = {
     'object-shorthand': 0,
     'func-names': 0,
     'import/prefer-default-export': 0,
+    'no-param-reassign': 0,
   }
 }

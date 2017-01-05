@@ -1,7 +1,5 @@
 const fs = require('fs')
 const path = require('path')
-const yaml = require('js-yaml')
-const setting = require('./setting')
 
 function copyFile(source, target) {
   return new Promise((resolve, reject) => {
@@ -16,23 +14,6 @@ function copyFile(source, target) {
     ws.on('error', rejectCleanup)
     ws.on('finish', resolve)
     rs.pipe(ws)
-  })
-}
-
-function loadConfig() {
-  return new Promise((resolve, reject) => {
-    if (fs.existsSync(setting.configPath)) {
-      fs.readFile(setting.configPath, {}, (error, data) => {
-        if (error) {
-          reject(error)
-        } else {
-          const config = yaml.safeLoad(data)
-          resolve(config)
-        }
-      })
-    } else {
-      resolve({})
-    }
   })
 }
 
@@ -60,9 +41,17 @@ function updateNpmVersion(pPath, version) {
   })
 }
 
+function extractReleaseVersion(name) {
+  const versionMatch = name.match(/release\/(.*)/)
+  if (versionMatch === null) {
+    return null
+  }
+  return versionMatch[1]
+}
+
 module.exports = {
   copyFile,
-  loadConfig,
   updateNpmVersion,
   cwdPath,
+  extractReleaseVersion,
 }

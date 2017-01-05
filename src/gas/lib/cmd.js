@@ -14,8 +14,15 @@ module.exports.exec = (cmd, options) => {
   })
 }
 
-module.exports.execSync = (cmd, options) => {
-  execSync(cmd, options)
+module.exports.execSync = (cmd, options = {}) => {
+  if (!('stdio' in options)) {
+    options.stdio = 'pipe'
+  }
+  const result = execSync(cmd, options)
+  if (result !== null) {
+    return result.toString()
+  }
+  return result
 }
 
 module.exports.Separator = inquirer.Separator

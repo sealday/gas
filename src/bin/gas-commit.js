@@ -1,7 +1,8 @@
-const commit = require('../lib/gas/commit')
-const log = require('../lib/log')
+const commit = require('../gas/commit')
+const log = require('./log')
 
-commit.commit()
-      .catch((error) => {
-        log.red(error)
-      })
+commit.prepareStage()
+commit.previewChanges()
+commit.prepareMessage()
+      .then(commit.commitMessage)
+      .catch(log.catchError)
