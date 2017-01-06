@@ -1,7 +1,7 @@
 const yaml = require('js-yaml')
 const fs = require('fs')
 const setting = require('./setting')
-const log = require('./../../bin/log')
+const log = require('./log')
 
 const config = {}
 // TODO: load default config in template
