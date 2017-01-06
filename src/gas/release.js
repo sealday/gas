@@ -50,13 +50,13 @@ function inquireTag() {
   return chooseTag(semverTag)
 }
 
-function startGitflowRelease(tag) {
-  cmd.execSync(`git flow release start ${tag}`, { stdio: 'inherit' })
-}
-
-function finishGitflowRelease(tag) {
-  cmd.execSync(`export GIT_MERGE_AUTOEDIT=no && git flow release finish -m ${config.git.tag.tag_message.replace(/ /g, '_')} ${tag}`, { stdio: 'inherit' })
-  git.checkoutBranch('develop', { stdio: 'inherit' })
+function start() {
+  inquireTag()
+    .then((tag) => {
+      log.yellow(`release start ${tag}`)
+      cmd.execSync(`git flow release start ${tag}`, { stdio: 'inherit' })
+    })
+    .catch(log.catchError)
 }
 
 function updateNpm(pPath, version) {
@@ -70,49 +70,41 @@ function updateNpm(pPath, version) {
              })
 }
 
-function finishRelease(version) {
-  const pPath = util.cwdPath('package.json')
-  if (fs.existsSync(pPath)) {
-    return cmd.promptConfirm('confirm', 'Update version in package.json?')
-              .then((answers) => {
-                if (answers.confirm) {
-                  return updateNpm(pPath, version)
-                }
-                return Promise.resolve()
-              })
-              .then(() => {
-                return finishGitflowRelease(version)
-              })
-  }
-  return finishGitflowRelease(version)
-}
-
 function getVersion() {
   const branch = git.getCurrentBranch()
   return util.extractReleaseVersion(branch)
 }
 
-function getExistRelease() {
-  const branches = git.getBranches()
-  return branches.filter(name => util.extractReleaseVersion(name) !== null)
-}
-
-function start() {
-  inquireTag()
-    .then((tag) => {
-      log.yellow(`release start ${tag}`)
-      startGitflowRelease(tag)
-    })
-    .catch(log.catchError)
+function finishGitflowRelease(tag) {
+  const cmdStr = `export GIT_MERGE_AUTOEDIT=no &&git flow release finish -m ${config.git.tag.tag_message.replace(/ /g, '_')} ${tag}`
+  cmd.execSync(cmdStr, { stdio: 'inherit' })
+  git.checkoutBranch('develop')
 }
 
 function finish() {
   const version = getVersion()
-  if (version !== null) {
-    log.info(`Version tag is: ${chalk.bold.green(version)}`)
-    finishRelease(version).catch(log.catchError)
-  } else {
+  if (version === null) {
     log.red('Current branch is not release branch.\nPlease checkout release branch')
+    return
+  }
+  const finishRelease = () => {
+    finishGitflowRelease(version)
+  }
+
+  log.info(`Version tag is: ${chalk.bold.green(version)}`)
+  const pPath = util.cwdPath('package.json')
+  if (fs.existsSync(pPath)) {
+    cmd.promptConfirm('confirm', 'Update version in package.json?')
+       .then((answers) => {
+         if (answers.confirm) {
+           return updateNpm(pPath, version)
+         }
+         return Promise.resolve()
+       })
+       .then(finishRelease)
+       .catch(log.catchError)
+  } else {
+    finishRelease()
   }
 }
 
@@ -121,7 +113,8 @@ function release() {
   if (version !== null) {
     finish()
   } else {
-    const names = getExistRelease()
+    const branches = git.getBranches()
+    const names = branches.filter(name => util.extractReleaseVersion(name) !== null)
     if (names.length === 0) {
       start()
     } else {
