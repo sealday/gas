@@ -1,7 +1,7 @@
 const git = require('./lib/git')
 const config = require('./lib/config')
 const cmd = require('./lib/cmd')
-const log = require('../bin/log')
+const log = require('./lib/log')
 
 function prepareStage() {
   if (config.git.commit.auto_stage) {
@@ -62,9 +62,14 @@ function commitMessage(message) {
             })
 }
 
+function commit() {
+  prepareStage()
+  previewChanges()
+  prepareMessage()
+    .then(commitMessage)
+    .catch(log.catchError)
+}
+
 module.exports = {
-  prepareStage,
-  previewChanges,
-  prepareMessage,
-  commitMessage,
+  commit,
 }

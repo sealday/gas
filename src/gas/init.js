@@ -2,7 +2,7 @@ const fs = require('fs')
 const util = require('./lib/util')
 const git = require('./lib/git')
 const setting = require('./lib/setting')
-const log = require('../bin/log')
+const log = require('./lib/log')
 const cmd = require('./lib/cmd')
 
 function getGitVersion() {
@@ -80,9 +80,14 @@ function checkConfig() {
   })
 }
 
+function init() {
+  checkGitInit()
+    .then(checkGitFlow)
+    .then(checkConfig)
+    .catch(log.catchError)
+}
+
 module.exports = {
   getGitVersion,
-  checkGitInit,
-  checkGitFlow,
-  checkConfig,
+  init,
 }

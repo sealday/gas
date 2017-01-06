@@ -1,5 +1,6 @@
 const cmd = require('./lib/cmd')
 const git = require('./lib/git')
+const log = require('./lib/log')
 
 function choose() {
   const branches = git.getBranches()
@@ -20,11 +21,16 @@ function choose() {
   })
 }
 
-function checkout(branch) {
-  cmd.execSync(`git checkout ${branch}`, { stdio: 'inherit' })
+function checkout(name) {
+  cmd.execSync(`git checkout ${name}`, { stdio: 'inherit' })
+}
+
+function branch() {
+  choose()
+    .then(checkout)
+    .catch(log.catchError)
 }
 
 module.exports = {
-  choose,
-  checkout,
+  branch,
 }

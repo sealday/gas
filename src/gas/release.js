@@ -4,6 +4,8 @@ const config = require('./lib/config')
 const cmd = require('./lib/cmd')
 const semver = require('./lib/semver')
 const util = require('./lib/util')
+const chalk = require('chalk')
+const log = require('./lib/log')
 
 function inputTag() {
   const options = [{
@@ -95,10 +97,41 @@ function getExistRelease() {
   return branches.filter(name => util.extractReleaseVersion(name) !== null)
 }
 
+function start() {
+  inquireTag()
+    .then((tag) => {
+      log.yellow(`release start ${tag}`)
+      startGitflowRelease(tag)
+    })
+    .catch(log.catchError)
+}
+
+function finish() {
+  const version = getVersion()
+  if (version !== null) {
+    log.info(`Version tag is: ${chalk.bold.green(version)}`)
+    finishRelease(version).catch(log.catchError)
+  } else {
+    log.red('Current branch is not release branch.\nPlease checkout release branch')
+  }
+}
+
+function release() {
+  const version = getVersion()
+  if (version !== null) {
+    finish()
+  } else {
+    const names = getExistRelease()
+    if (names.length === 0) {
+      start()
+    } else {
+      log.red(`Exist release branch: ${names.join(', ')}\nCheckout these release branch at first`)
+    }
+  }
+}
+
 module.exports = {
-  getVersion,
-  getExistRelease,
-  inquireTag,
-  startGitflowRelease,
-  finishRelease,
+  start,
+  finish,
+  release,
 }

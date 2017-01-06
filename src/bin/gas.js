@@ -3,7 +3,6 @@
 const program = require('commander')
 const execSync = require('child_process').execSync
 const version = require('../../package.json').version
-const log = require('./log')
 const gas = require('../gas/gas')
 
 program
@@ -30,7 +29,7 @@ aliases.forEach((alias) => {
       try {
         execSync(alias.cmd, { stdio: 'inherit' })
       } catch (error) {
-        log.red(error)
+        // ignore
       }
     })
 })
