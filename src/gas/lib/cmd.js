@@ -14,10 +14,11 @@ module.exports.exec = (cmd, options) => {
   })
 }
 
-module.exports.execSync = (cmd, options = {}) => {
-  if (!('stdio' in options)) {
-    options.stdio = 'pipe'
+module.exports.execSync = (cmd, newOptions = {}) => {
+  const defaultOptions = {
+    stdio: 'pipe',
   }
+  const options = Object.assign(defaultOptions, newOptions)
   const result = execSync(cmd, options)
   if (result !== null) {
     return result.toString()
