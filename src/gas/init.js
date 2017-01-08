@@ -29,19 +29,16 @@ https://github.com/nvie/gitflow/wiki/Installation`
 
 async function checkConfig() {
   if (fs.existsSync(setting.configPath)) {
+    log.success('config already exists')
     const options = [{
       type: 'confirm',
       name: 'confirm',
       message: 'Reset your .gas.yml?',
       default: true,
     }]
-
     const answers = await cmd.prompt(options)
     if (answers.confirm) {
       fs.copySync(setting.templateConfigPath, setting.configPath)
-      log.success('config already exists, override')
-    } else {
-      log.success('config already exists')
     }
   } else {
     fs.copySync(setting.templateConfigPath, setting.configPath)
