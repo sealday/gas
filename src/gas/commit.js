@@ -3,14 +3,15 @@ const config = require('./lib/config')
 const cmd = require('./lib/cmd')
 const log = require('./lib/log')
 
-function prepareStage() {
+function preCommit() {
   if (config.git.commit.auto_stage) {
     git.addAllSync()
   }
-}
-
-function previewChanges() {
-  git.showStatusSync()
+  try {
+    git.showStatusSync({ stdio: 'inherit' })
+  } catch (error) {
+    // do nothing
+  }
 }
 
 function prepareMessage() {
@@ -57,14 +58,17 @@ function commitMessage(message) {
   return cmd.promptConfirm('confirm', 'Make sure to commit?')
             .then((answers) => {
               if (answers.confirm === true) {
-                git.commitMessageSync(message)
+                try {
+                  git.commitMessageSync(message, { stdio: 'inherit' })
+                } catch (error) {
+                  // do nothing
+                }
               }
             })
 }
 
 function commit() {
-  prepareStage()
-  previewChanges()
+  preCommit()
   prepareMessage()
     .then(commitMessage)
     .catch(log.catchError)
