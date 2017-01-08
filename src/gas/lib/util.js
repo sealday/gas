@@ -25,7 +25,7 @@ function cwdPath(rPath) {
 function updateNpmVersion(pPath, version) {
   const data = fs.readFileSync(pPath)
   const result = data.toString().replace(/"version".*".*?"/, `"version": "${version}"`)
-  fs.writeFile(pPath, result, 'utf8')
+  fs.writeFileSync(pPath, result, 'utf8')
 }
 
 function extractReleaseVersion(name) {
