@@ -1,7 +1,7 @@
 const config = require('./lib/config')
 
 function getAliases() {
-  const aliases = config.aliases || []
+  const aliases = config.alias || []
   const result = []
   aliases.forEach((item) => {
     Object.keys(item).forEach((name) => {

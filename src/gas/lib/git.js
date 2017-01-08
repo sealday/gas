@@ -1,10 +1,10 @@
 const cmd = require('./cmd')
 
-function addAll() {
+function addAllSync() {
   return cmd.execSync('git add .')
 }
 
-function showStatus() {
+function showStatusSync() {
   try {
     cmd.execSync('git status', { stdio: 'inherit' })
   } catch (error) {
@@ -12,7 +12,7 @@ function showStatus() {
   }
 }
 
-function commitMessage(message) {
+function commitMessageSync(message) {
   try {
     cmd.execSync(`git commit -m '${message}'`, { stdio: 'inherit' })
   } catch (error) {
@@ -20,46 +20,46 @@ function commitMessage(message) {
   }
 }
 
-function checkoutBranch(branch) {
+function checkoutBranchSync(branch) {
   return cmd.execSync(`git checkout ${branch}`)
 }
 
-function getCurrentBranch() {
+function getCurrentBranchSync() {
   return cmd.execSync('git rev-parse --abbrev-ref HEAD')
 }
 
-function getVersion() {
+function getVersionSync() {
   return cmd.execSync('git version')
 }
 
-function getBranches() {
+function getBranchesSync() {
   const stdout = cmd.execSync('git branch')
   return stdout.split('\n')
                .map(name => name.trim())
                .filter(name => name.length > 0)
 }
 
-function getTags() {
+function getTagsSync() {
   const stdout = cmd.execSync('git tag')
   return stdout.split('\n')
                .map(name => name.trim())
                .filter(name => name.length > 0)
 }
 
-function getLastTag() {
+function getLastTagSync() {
   return cmd.execSync('git describe --tags $(git rev-list --tags --max-count=1)')
             .replace('\n', '')
             .trim()
 }
 
 module.exports = {
-  addAll,
-  showStatus,
-  commitMessage,
-  checkoutBranch,
-  getCurrentBranch,
-  getBranches,
-  getVersion,
-  getTags,
-  getLastTag,
+  addAllSync,
+  showStatusSync,
+  commitMessageSync,
+  checkoutBranchSync,
+  getCurrentBranchSync,
+  getBranchesSync,
+  getVersionSync,
+  getTagsSync,
+  getLastTagSync,
 }
