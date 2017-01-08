@@ -1,79 +1,62 @@
-const fs = require('fs')
-const util = require('./lib/util')
+const fs = require('fs-extra')
 const setting = require('./lib/setting')
 const log = require('./lib/log')
 const cmd = require('./lib/cmd')
 
 function checkGitInit() {
-  return new Promise((resolve, reject) => {
-    cmd.exec('git status', (error) => {
-      if (error) {
-        cmd.exec('git init', (initError) => {
-          if (initError) {
-            reject(error)
-          } else {
-            log.success('not a git repository, init git')
-            resolve()
-          }
-        })
-      } else {
-        log.success('a valid git repository')
-        resolve()
-      }
-    })
-  })
+  cmd.execSync('git status')
+  log.success('git inited')
 }
 
 function checkGitFlow() {
   try {
     cmd.execSync('git flow feature')
-    log.green('git flow inited')
   } catch (error) {
     if (error.message.match(/not a git command/) !== null) {
-      throw new Error('git-flow not installed\nyou can install git-flow from here:\nhttps://github.com/nvie/gitflow/wiki/Installation')
+      const message = `
+git-flow not installed
+you can install git-flow from here:
+https://github.com/nvie/gitflow/wiki/Installation`
+      throw new Error(message)
     } else if (error.message.match(/not a gitflow-enabled repo/i) !== null) {
       cmd.execSync('git flow init -df')
-      log.green('init git flow')
     } else {
       throw error
     }
   }
+  log.success('git flow inited')
 }
 
-function checkConfig() {
-  return new Promise((resolve, reject) => {
-    if (fs.existsSync(setting.configPath)) {
-      log.green('config already exists')
+async function checkConfig() {
+  if (fs.existsSync(setting.configPath)) {
+    const options = [{
+      type: 'confirm',
+      name: 'confirm',
+      message: 'Reset your .gas.yml?',
+      default: true,
+    }]
 
-      const options = [{
-        type: 'confirm',
-        name: 'confirm',
-        message: 'Reset gas config file?',
-        default: true,
-      }]
-
-      cmd.prompt(options).then((answers) => {
-        if (answers.confirm) {
-          util.copyFile(setting.templateConfigPath, setting.configPath)
-              .then(resolve)
-              .catch(reject)
-        } else {
-          resolve()
-        }
-      })
+    const answers = await cmd.prompt(options)
+    if (answers.confirm) {
+      fs.copySync(setting.templateConfigPath, setting.configPath)
+      log.success('config already exists, override')
     } else {
-      log.green('config not exists')
-      util.copyFile(setting.templateConfigPath, setting.configPath)
-      resolve()
+      log.success('config already exists')
     }
-  })
+  } else {
+    fs.copySync(setting.templateConfigPath, setting.configPath)
+    log.success('config not exists')
+  }
 }
 
-function init() {
-  checkGitInit()
-    .then(checkGitFlow)
-    .then(checkConfig)
-    .catch(log.catchError)
+async function init() {
+  try {
+    checkGitInit()
+    checkGitFlow()
+    await checkConfig()
+  } catch (error) {
+    log.error(error)
+  }
 }
 
 module.exports = {

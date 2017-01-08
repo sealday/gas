@@ -19,11 +19,16 @@ module.exports.execSync = (cmd, newOptions = {}) => {
     stdio: 'pipe',
   }
   const options = Object.assign(defaultOptions, newOptions)
-  const result = execSync(cmd, options)
-  if (result !== null) {
-    return result.toString()
+
+  try {
+    const result = execSync(cmd, options)
+    if (result !== null) {
+      return result.toString()
+    }
+    return result
+  } catch (error) {
+    throw new Error(error.stderr.toString())
   }
-  return result
 }
 
 module.exports.Separator = inquirer.Separator

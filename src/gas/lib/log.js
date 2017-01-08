@@ -83,9 +83,9 @@ Object.defineProperties(Log.prototype, propertis)
 
 Log.prototype.info = info
 
-Log.prototype.catchError = (error) => {
+Log.prototype.error = (error) => {
   // console.log(error.stack)
-  info(chalk.red(error))
+  info(chalk.red(error.message))
 }
 
 Log.prototype.success = (text) => {

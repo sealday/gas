@@ -1,7 +1,6 @@
 const yaml = require('js-yaml')
 const fs = require('fs')
 const setting = require('./setting')
-const log = require('./log')
 
 const config = {}
 // TODO: load default config in template
@@ -11,7 +10,7 @@ try {
     Object.assign(config, yaml.safeLoad(data))
   }
 } catch (error) {
-  log.red(error)
+  // ignore
 }
 
 module.exports = config

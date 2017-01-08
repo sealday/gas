@@ -1,9 +1,9 @@
-#!/usr/bin/env node --harmony
+#!/usr/bin/env node
 
-const program = require('commander')
-const execSync = require('child_process').execSync
-const version = require('../../package.json').version
-const gas = require('../gas/gas')
+import program from 'commander'
+import { execSync } from 'child_process'
+import { version } from '../../package.json'
+import gas from '../gas/gas'
 
 program
   .version(version, '-V, --version')
