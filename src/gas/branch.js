@@ -3,7 +3,7 @@ const git = require('./lib/git')
 const log = require('./lib/log')
 
 function choose() {
-  const branches = git.getBranches()
+  const branches = git.getBranchesSync()
   let currentIndex = -1
   branches.forEach((name, i) => {
     if (name.match(/^\* /) !== null) {

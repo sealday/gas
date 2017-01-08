@@ -23,22 +23,9 @@ function cwdPath(rPath) {
 }
 
 function updateNpmVersion(pPath, version) {
-  return new Promise((resolve, reject) => {
-    fs.readFile(pPath, (error, data) => {
-      if (error) {
-        reject(error)
-      } else {
-        const result = data.toString().replace(/"version".*".*?"/, `"version": "${version}"`)
-        fs.writeFile(pPath, result, 'utf8', (wError) => {
-          if (wError) {
-            reject(wError)
-          } else {
-            resolve()
-          }
-        })
-      }
-    })
-  })
+  const data = fs.readFileSync(pPath)
+  const result = data.toString().replace(/"version".*".*?"/, `"version": "${version}"`)
+  fs.writeFile(pPath, result, 'utf8')
 }
 
 function extractReleaseVersion(name) {

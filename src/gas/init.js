@@ -6,7 +6,7 @@ const log = require('./lib/log')
 const cmd = require('./lib/cmd')
 
 function getGitVersion() {
-  const stdout = git.getVersion()
+  const stdout = git.getVersionSync()
   const re = /git version ([^ ]+)/ig
   const result = re.exec(stdout)
   if (result !== null) {

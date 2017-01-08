@@ -38,11 +38,11 @@ function chooseTag(semverTag) {
 }
 
 function inquireTag() {
-  const tags = git.getTags()
+  const tags = git.getTagsSync()
   if (tags.length === 0) {
     return inputTag()
   }
-  const lastTag = git.getLastTag()
+  const lastTag = git.getLastTagSync()
   const semverTag = new semver.Semver(lastTag)
   if (semverTag.version === null) {
     return inputTag()
@@ -60,25 +60,23 @@ function start() {
 }
 
 function updateNpm(pPath, version) {
-  return util.updateNpmVersion(pPath, version)
-             .then(() => {
-               try {
-                 cmd.execSync(`git add package.json && git commit -m "${config.git.flow.release.finish_message}"`)
-               } catch (error) {
-                 // ignore commit error
-               }
-             })
+  util.updateNpmVersion(pPath, version)
+  try {
+    cmd.execSync(`git add package.json && git commit -m "${config.git.flow.release.finish_message}"`)
+  } catch (error) {
+    // ignore commit error
+  }
 }
 
 function getVersion() {
-  const branch = git.getCurrentBranch()
+  const branch = git.getCurrentBranchSync()
   return util.extractReleaseVersion(branch)
 }
 
 function finishGitflowRelease(tag) {
   const cmdStr = `export GIT_MERGE_AUTOEDIT=no &&git flow release finish -m ${config.git.tag.tag_message.replace(/ /g, '_')} ${tag}`
   cmd.execSync(cmdStr, { stdio: 'inherit' })
-  git.checkoutBranch('develop')
+  git.checkoutBranchSync('develop')
 }
 
 function finish() {
@@ -113,7 +111,7 @@ function release() {
   if (version !== null) {
     finish()
   } else {
-    const branches = git.getBranches()
+    const branches = git.getBranchesSync()
     const names = branches.filter(name => util.extractReleaseVersion(name) !== null)
     if (names.length === 0) {
       start()

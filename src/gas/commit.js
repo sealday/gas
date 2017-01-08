@@ -5,12 +5,12 @@ const log = require('./lib/log')
 
 function prepareStage() {
   if (config.git.commit.auto_stage) {
-    git.addAll()
+    git.addAllSync()
   }
 }
 
 function previewChanges() {
-  git.showStatus()
+  git.showStatusSync()
 }
 
 function prepareMessage() {
@@ -57,7 +57,7 @@ function commitMessage(message) {
   return cmd.promptConfirm('confirm', 'Make sure to commit?')
             .then((answers) => {
               if (answers.confirm === true) {
-                git.commitMessage(message)
+                git.commitMessageSync(message)
               }
             })
 }
