@@ -89,11 +89,11 @@ Log.prototype.error = (error) => {
 }
 
 Log.prototype.success = (text) => {
-  log.info(`${text}`)
+  log.info(`${emoji.get('white_check_mark')} ${text}`)
 }
 
 Log.prototype.failure = (text) => {
-  log.info(`${text}`)
+  log.info(`${emoji.get('negative_squared_cross_mark')} ${text}`)
 }
 
 const log = new Log()
