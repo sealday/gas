@@ -30,6 +30,7 @@
  */
 
 const chalk = require('chalk')
+const emoji = require('node-emoji')
 
 function Log() {
 }
@@ -49,13 +50,18 @@ const proto = Object.defineProperties(Builder,
     return result
   }, {}))
 
+function info(...args) {
+  /* eslint-disable no-console */
+  console.log(...args)
+  /* eslint-enable no-console */
+}
+
 function build(styles) {
   const builder = function (...args) {
     const result = styles.reduce((previous, current) => {
       return previous[current]
     }, chalk)
-    /* eslint-disable no-console */
-    return console.log(result(...args))
+    return info(result(...args))
   }
   builder.styles = styles
   /* eslint-disable no-proto */
@@ -75,24 +81,20 @@ const propertis = Object.keys(chalk.styles).reduce((previous, current) => {
 
 Object.defineProperties(Log.prototype, propertis)
 
-function debug(...args) {
-  /* eslint-disable no-console */
-  console.log(...args)
-}
-Log.prototype.debug = debug
-
-function info(...args) {
-  /* eslint-disable no-console */
-  console.log(...args)
-}
 Log.prototype.info = info
 
-function catchError(error) {
-  log.debug(error.stack)
-  /* eslint-disable no-console */
-  console.log(chalk.red(error))
+Log.prototype.catchError = (error) => {
+  // console.log(error.stack)
+  info(chalk.red(error))
 }
-Log.prototype.catchError = catchError
+
+Log.prototype.success = (text) => {
+  log.info(`${text}`)
+}
+
+Log.prototype.failure = (text) => {
+  log.info(`${text}`)
+}
 
 const log = new Log()
 module.exports = log

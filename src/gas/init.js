@@ -1,19 +1,8 @@
 const fs = require('fs')
 const util = require('./lib/util')
-const git = require('./lib/git')
 const setting = require('./lib/setting')
 const log = require('./lib/log')
 const cmd = require('./lib/cmd')
-
-function getGitVersion() {
-  const stdout = git.getVersionSync()
-  const re = /git version ([^ ]+)/ig
-  const result = re.exec(stdout)
-  if (result !== null) {
-    return result[1]
-  }
-  return null
-}
 
 function checkGitInit() {
   return new Promise((resolve, reject) => {
@@ -23,12 +12,12 @@ function checkGitInit() {
           if (initError) {
             reject(error)
           } else {
-            log.green('not a git repository, init git')
+            log.success('not a git repository, init git')
             resolve()
           }
         })
       } else {
-        log.green('a valid git repository')
+        log.success('a valid git repository')
         resolve()
       }
     })
@@ -88,6 +77,5 @@ function init() {
 }
 
 module.exports = {
-  getGitVersion,
   init,
 }
